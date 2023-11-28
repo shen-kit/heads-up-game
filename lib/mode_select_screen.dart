@@ -6,6 +6,7 @@ import 'game_data.dart';
 class ModeSelectScreen extends StatelessWidget {
   const ModeSelectScreen({super.key});
 
+  // generate a list of buttons for the user to select a game mode to play
   List<GameModeButton> createGameModeButtons() {
     return GameData()
         .data
@@ -19,50 +20,41 @@ class ModeSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hia\'s Up',
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          background: Colors.amber,
-          primary: Colors.lightBlue,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Hia's Up!"),
+        titleTextStyle: const TextStyle(
+          fontFamily: "MarkerFelt",
+          fontSize: 35,
         ),
-        useMaterial3: true,
+        centerTitle: true,
+        backgroundColor: Colors.blue[700],
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Hia's Up!"),
-          titleTextStyle: const TextStyle(
-            fontFamily: "MarkerFelt",
-            fontSize: 35,
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.blue[700],
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Pick a topic...",
-                style: TextStyle(
-                  fontSize: 36,
-                  color: Colors.black,
-                  fontFamily: "MarkerFelt",
-                  height: 2.5,
-                ),
+      // scrollable widget containing all the game modes
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Pick a topic...",
+              style: TextStyle(
+                fontSize: 36,
+                color: Colors.black,
+                fontFamily: "MarkerFelt",
+                height: 2.5,
               ),
-              const SizedBox(height: 16),
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 2,
-                children: createGameModeButtons(),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 16),
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 2,
+              children: createGameModeButtons(),
+            ),
+          ],
         ),
       ),
     );

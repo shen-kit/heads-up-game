@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heads_up/game_mode_settings_screen.dart';
 
 class GameModeButton extends StatelessWidget {
   final String label;
@@ -9,7 +10,14 @@ class GameModeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GameModeSettingsScreen(label),
+          ),
+        );
+      },
       clipBehavior: Clip.antiAlias,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
