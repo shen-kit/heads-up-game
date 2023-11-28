@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
 import 'components/game_mode_button.dart';
+import 'game_data.dart';
 
-void main() => runApp(const ModeSelectScreen());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await GameData().loadGameData();
+
+  runApp(const ModeSelectScreen());
+}
 
 class ModeSelectScreen extends StatelessWidget {
   const ModeSelectScreen({super.key});
+
+  List<GameModeButton> createGameModeButtons() {
+    return GameData()
+        .data
+        .keys
+        .map((key) => GameModeButton(key, backgroundImageName: "star wars.jpg"))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,32 +64,7 @@ class ModeSelectScreen extends StatelessWidget {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
                 childAspectRatio: 2,
-                children: const [
-                  GameModeButton(
-                    "Star Wars IV-VI",
-                    backgroundImageName: "star wars.jpg",
-                  ),
-                  GameModeButton(
-                    "The Clone Wars",
-                    backgroundImageName: "clone wars.jpg",
-                  ),
-                  GameModeButton(
-                    "LOTR",
-                    backgroundImageName: "lotr.jpg",
-                  ),
-                  GameModeButton(
-                    "Trivia",
-                    backgroundImageName: "trivia.jpg",
-                  ),
-                  GameModeButton(
-                    "Asian Food",
-                    backgroundImageName: "food1.jpeg",
-                  ),
-                  GameModeButton(
-                    "Western Food",
-                    backgroundImageName: "food2.jpg",
-                  ),
-                ],
+                children: createGameModeButtons(),
               ),
             ],
           ),
