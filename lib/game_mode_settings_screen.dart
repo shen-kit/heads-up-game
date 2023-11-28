@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 
-class GameModeSettingsScreen extends StatelessWidget {
+class GameModeSettingsScreen extends StatefulWidget {
   final String topic;
 
   const GameModeSettingsScreen(this.topic, {super.key});
 
   @override
+  State<GameModeSettingsScreen> createState() => _GameModeSettingsScreenState();
+}
+
+class _GameModeSettingsScreenState extends State<GameModeSettingsScreen> {
+  int _gameDuration = 60;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(topic),
+        title: Text(widget.topic),
         titleTextStyle: const TextStyle(
           fontFamily: "MarkerFelt",
           fontSize: 35,
@@ -57,6 +65,60 @@ class GameModeSettingsScreen extends StatelessWidget {
                           letterSpacing: 4,
                         ),
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton.icon(
+                    onPressed: () {
+                      int duration = _gameDuration;
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          backgroundColor: Colors.amber,
+                          title: const Text(
+                            "Game Duration",
+                            textAlign: TextAlign.center,
+                          ),
+                          content:
+                              StatefulBuilder(builder: (context, setState) {
+                            return NumberPicker(
+                                value: duration,
+                                minValue: 30,
+                                maxValue: 180,
+                                step: 10,
+                                haptics: true,
+                                itemCount: 7,
+                                selectedTextStyle: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                onChanged: (value) {
+                                  setState(() => duration = value);
+                                });
+                          }),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                setState(() => _gameDuration = duration);
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "OK",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.timer_outlined),
+                    label: Text("${_gameDuration.toString()}s"),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(16),
                     ),
                   ),
                 ],
