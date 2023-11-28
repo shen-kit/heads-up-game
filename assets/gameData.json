@@ -127,5 +127,28 @@
             "Spaghetti Bolognese",
             "Tacos"
         ]
+    },
+    "Hia Family": {
+        "background_image": "hia family.jpg",
+        "questions": [
+            "Teng Ngai",
+            "Noi Teng",
+            "Noi Meng",
+            "Noi Kwang",
+            "Gong Gong",
+            "Ma Ma",
+            "Ern Kye",
+            "Ern Rhae",
+            "Shwern Yii",
+            "Shen-Kit",
+            "Su-Jyn",
+            "Su-En",
+            "Jet Kye",
+            "Jet Shoon",
+            "Eef Faye",
+            "Yah Lee",
+            "Soi Teoh",
+            "Dua Teoh"
+        ]
     }
 }
