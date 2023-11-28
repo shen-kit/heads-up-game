@@ -18,7 +18,10 @@ class ModeSelectScreen extends StatelessWidget {
     return GameData()
         .data
         .keys
-        .map((key) => GameModeButton(key, backgroundImageName: "star wars.jpg"))
+        .map((key) => GameModeButton(
+              key,
+              backgroundImageName: GameData().data[key]["background_image"],
+            ))
         .toList();
   }
 
