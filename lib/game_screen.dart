@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heads_up/game_over_page.dart';
-import 'package:heads_up/mode_select_screen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class GameScreen extends StatefulWidget {
@@ -21,6 +20,8 @@ class _GameScreenState extends State<GameScreen> {
   final double sensitivity = 0.75;
   final double answerDelay = 0.75;
 
+  late List<dynamic>
+      _questionsList; // edit this list so the game can be replayed
   List<String> questionsAsked = [];
   List<bool> answers = [];
   String currentQuestion = "";
@@ -29,8 +30,7 @@ class _GameScreenState extends State<GameScreen> {
 
   bool listen = true;
   late int timeLeft;
-  Timer? _timer1;
-  Timer? _timer2;
+  final List<Timer> _timers = [];
   late StreamSubscription<dynamic> gyroscopeSubscription;
 
   @override
@@ -38,6 +38,7 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
 
     timeLeft = widget.gameDuration;
+    _questionsList = List.from(widget.questions);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -62,7 +63,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void runTimer() {
-    _timer1 = Timer(const Duration(seconds: 1), () {
+    _timers.add(Timer(const Duration(seconds: 1), () {
       if (timeLeft > 1) {
         setState(() => timeLeft -= 1);
         runTimer();
@@ -75,19 +76,24 @@ class _GameScreenState extends State<GameScreen> {
           (route) => false,
         );
       }
-    });
+    }));
   }
 
   void onQuestionAnswered(bool correct) {
+    // do nothing if finished the entire question list
+    if (_questionsList.isEmpty) {
+      return;
+    }
+
     // flash the screen green/red for 2 seconds
     setState(() => lastAnswer = correct ? 1 : -1);
 
     // don't listen for phone rotation for 2 seconds to allow the player
     // to reset
     listen = false;
-    _timer2 = Timer(Duration(milliseconds: (answerDelay * 1000).toInt()), () {
+    _timers.add(Timer(Duration(milliseconds: (answerDelay * 1000).toInt()), () {
       showNextQuestion();
-    });
+    }));
 
     questionsAsked.add(currentQuestion);
     answers.add(correct);
@@ -97,8 +103,22 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       listen = true;
       lastAnswer = 0;
-      currentQuestion =
-          widget.questions[Random().nextInt(widget.questions.length)];
+      _questionsList.remove(currentQuestion);
+      if (_questionsList.isNotEmpty) {
+        currentQuestion =
+            _questionsList[Random().nextInt(_questionsList.length)];
+      } else {
+        currentQuestion = "You finished the entire list for this topic!";
+        Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GameOverScreen(questionsAsked, answers)),
+            (route) => false,
+          ),
+        );
+      }
     });
   }
 
@@ -119,6 +139,7 @@ class _GameScreenState extends State<GameScreen> {
               const SizedBox(),
               Text(
                 currentQuestion,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 56,
                   fontWeight: FontWeight.bold,
@@ -152,11 +173,10 @@ class _GameScreenState extends State<GameScreen> {
 
     gyroscopeSubscription.cancel();
 
-    if (_timer1 != null && _timer1!.isActive) {
-      _timer1!.cancel();
-    }
-    if (_timer2 != null && _timer2!.isActive) {
-      _timer2!.cancel();
+    for (Timer timer in _timers) {
+      if (timer.isActive) {
+        timer.cancel();
+      }
     }
 
     super.dispose();
