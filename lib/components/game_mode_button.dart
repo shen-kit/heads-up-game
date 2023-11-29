@@ -40,7 +40,8 @@ class GameModeButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 28, shadows: [
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 24, shadows: [
               Shadow(
                 blurRadius: 8,
                 color: Colors.purple,

@@ -51,7 +51,7 @@ class ModeSelectScreen extends StatelessWidget {
               shrinkWrap: true,
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
-              childAspectRatio: 2,
+              childAspectRatio: 1.3,
               children: createGameModeButtons(),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'game_data.dart';
 import 'mode_select_screen.dart';
@@ -9,6 +10,11 @@ void main() async {
 
   // load game data (modes, questions, images)
   await GameData().loadGameData();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // show the mode select screen on startup
   runApp(
