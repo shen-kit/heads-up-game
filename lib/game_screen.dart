@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:heads_up/game_over_page.dart';
+import 'package:hias_up/game_over_page.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class GameScreen extends StatefulWidget {

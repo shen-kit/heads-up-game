@@ -1,4 +1,4 @@
-package com.example.heads_up
+package com.example.hias_up
 
 import io.flutter.embedding.android.FlutterActivity
 

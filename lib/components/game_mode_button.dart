@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heads_up/game_mode_settings_screen.dart';
+import 'package:hias_up/game_mode_settings_screen.dart';
 
 class GameModeButton extends StatelessWidget {
   final String label;

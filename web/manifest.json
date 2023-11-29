@@ -1,6 +1,6 @@
 {
-    "name": "heads_up",
-    "short_name": "heads_up",
+    "name": "hias_up",
+    "short_name": "hias_up",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

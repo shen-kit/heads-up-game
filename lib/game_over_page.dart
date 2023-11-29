@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heads_up/mode_select_screen.dart';
+import 'package:hias_up/mode_select_screen.dart';
 
 class GameOverScreen extends StatefulWidget {
   final List<String> questionsShown;

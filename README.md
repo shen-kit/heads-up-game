@@ -1,6 +1,6 @@
-# heads_up
+# Hia's Up!
 
-A new Flutter project.
+A Heads Up clone but with customised topics and free to play :D
 
 ## Getting Started
 

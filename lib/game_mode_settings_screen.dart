@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heads_up/game_data.dart';
-import 'package:heads_up/game_screen.dart';
+import 'package:hias_up/game_data.dart';
+import 'package:hias_up/game_screen.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class GameModeSettingsScreen extends StatefulWidget {
