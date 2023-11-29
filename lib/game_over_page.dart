@@ -31,55 +31,63 @@ class _GameOverScreenState extends State<GameOverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(),
-              Column(
+    return OrientationBuilder(builder: (context, orientation) {
+      if (orientation == Orientation.portrait) {
+        return Scaffold(
+          body: SafeArea(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Game Over",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const SizedBox(),
+                  Column(
+                    children: [
+                      const Text(
+                        "Game Over",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Your Score: ${widget.answers.where((element) => element == true).length} / ${widget.answers.length}",
+                        style: const TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SingleChildScrollView(
+                        child: Column(children: generateAnswersList()),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Your Score: ${widget.answers.where((element) => element == true).length} / ${widget.answers.length}",
-                    style: const TextStyle(
-                      fontSize: 24,
+                  ElevatedButton(
+                    onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ModeSelectScreen()),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  SingleChildScrollView(
-                    child: Column(children: generateAnswersList()),
+                    child: const Text(
+                      "Back",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ModeSelectScreen()),
-                ),
-                child: const Text(
-                  "Back",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      } else {
+        return const Center(
+          child: Text("Loading..."),
+        );
+      }
+    });
   }
 }
