@@ -48,7 +48,7 @@ class ModeSelectScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             GridView.count(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
               mainAxisSpacing: 16,
