@@ -32,9 +32,10 @@ class ModeSelectScreen extends StatelessWidget {
       ),
       // scrollable widget containing all the game modes
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          // physics: AlwaysScrollableScrollPhysics(),
           children: [
             const Text(
               "Pick a topic...",
@@ -47,6 +48,7 @@ class ModeSelectScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             GridView.count(
+              physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
               mainAxisSpacing: 16,

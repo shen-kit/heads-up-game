@@ -22,7 +22,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 16,
-          color: correct ? Colors.green : Colors.red,
+          color: correct ? Colors.green[700] : Colors.red[700],
         ),
       ));
     }
@@ -59,8 +59,11 @@ class _GameOverScreenState extends State<GameOverScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      SingleChildScrollView(
-                        child: Column(children: generateAnswersList()),
+                      Container(
+                        constraints: const BoxConstraints(maxHeight: 350),
+                        child: SingleChildScrollView(
+                          child: Column(children: generateAnswersList()),
+                        ),
                       ),
                     ],
                   ),
@@ -84,8 +87,10 @@ class _GameOverScreenState extends State<GameOverScreen> {
           ),
         );
       } else {
-        return const Center(
-          child: Text("Loading..."),
+        return const Scaffold(
+          body: Center(
+            child: Text("Loading..."),
+          ),
         );
       }
     });
