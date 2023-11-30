@@ -43,7 +43,6 @@ class _GameScreenState extends State<GameScreen> {
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
     ]);
 
     gyroscopeSubscription = gyroscopeEventStream().listen(
