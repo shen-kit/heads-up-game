@@ -19,6 +19,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   final double sensitivity = 0.75;
   final double answerDelay = 0.75;
+  int timeToStart = 3;
 
   late List<dynamic>
       _questionsList; // edit this list so the game can be replayed
@@ -58,8 +59,20 @@ class _GameScreenState extends State<GameScreen> {
       cancelOnError: true,
     );
 
-    runTimer();
-    showNextQuestion();
+    countdownToStart();
+  }
+
+  void countdownToStart() {
+    _timers.add(Timer(const Duration(seconds: 1), () {
+      if (timeToStart > 1) {
+        setState(() => timeToStart -= 1);
+        countdownToStart();
+      } else {
+        timeToStart = 0;
+        runTimer();
+        showNextQuestion();
+      }
+    }));
   }
 
   void runTimer() {
@@ -81,7 +94,7 @@ class _GameScreenState extends State<GameScreen> {
 
   void onQuestionAnswered(bool correct) {
     // do nothing if finished the entire question list
-    if (_questionsList.isEmpty) {
+    if (_questionsList.isEmpty || timeToStart > 0) {
       return;
     }
 
@@ -138,10 +151,10 @@ class _GameScreenState extends State<GameScreen> {
             children: [
               const SizedBox(),
               Text(
-                currentQuestion,
+                (timeToStart == 0) ? currentQuestion : "$timeToStart",
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 56,
+                style: TextStyle(
+                  fontSize: (timeToStart == 0) ? 56 : 72,
                   fontWeight: FontWeight.bold,
                 ),
               ),
