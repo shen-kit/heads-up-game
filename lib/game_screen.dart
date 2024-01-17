@@ -17,8 +17,8 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final double sensitivity = 0.75;
-  final double answerDelay = 0.75;
+  final double sensitivity = 0.6;
+  final double answerDelay = 1;
   int timeToStart = 3;
 
   late List<dynamic>
@@ -81,6 +81,11 @@ class _GameScreenState extends State<GameScreen> {
         runTimer();
       } else {
         // game over
+
+        // show the most recent one at the end of the list
+        questionsAsked.add(currentQuestion);
+        answers.add(false);
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -97,11 +102,10 @@ class _GameScreenState extends State<GameScreen> {
       return;
     }
 
-    // flash the screen green/red for 2 seconds
+    // flash the screen green/red
     setState(() => lastAnswer = correct ? 1 : -1);
 
-    // don't listen for phone rotation for 2 seconds to allow the player
-    // to reset
+    // don't listen for phone rotation to allow the player to reset
     listen = false;
     _timers.add(Timer(Duration(milliseconds: (answerDelay * 1000).toInt()), () {
       showNextQuestion();
