@@ -85,6 +85,13 @@ flutter:
     - assets/gameModeBackgrounds/animals.jpg
     - assets/gameModeBackgrounds/athletes.jpg
     - assets/gameModeBackgrounds/sports.jpg
+    - assets/gameModeBackgrounds/dadPlaylist.avif
+    - assets/gameModeBackgrounds/brands.jpeg
+    - assets/gameModeBackgrounds/hamilton.jpg
+    - assets/gameModeBackgrounds/fairyTales.jpg
+    - assets/gameModeBackgrounds/disney.jpg
+    - assets/gameModeBackgrounds/harryPotter.jpg
+    - assets/gameModeBackgrounds/harryPotterSpells.jpg
     - assets/gameData.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
