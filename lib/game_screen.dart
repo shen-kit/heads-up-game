@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hias_up/game_data.dart';
 import 'package:hias_up/game_over_page.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -39,7 +41,22 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
 
     timeLeft = widget.gameDuration;
+
+    // avoid duplicate questions from the previous game if doing the same topic again
     _questionsList = List.from(widget.questions);
+    if (File("${GameData().docsDir}/prevGameQs.txt").existsSync()) {
+      for (var question
+          in File("${GameData().docsDir}/prevGameQs.txt").readAsLinesSync()) {
+        _questionsList.remove(question);
+      }
+
+      // if not enough questions left to play, reset the questions list
+      if (_questionsList.length < 20) {
+        _questionsList = List.from(widget.questions);
+        File("${GameData().docsDir}/prevGameQs.txt")
+            .writeAsStringSync("", mode: FileMode.write);
+      }
+    }
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -82,9 +99,28 @@ class _GameScreenState extends State<GameScreen> {
       } else {
         // game over
 
-        // show the most recent one at the end of the list
-        questionsAsked.add(currentQuestion);
-        answers.add(false);
+        // show the most recent question at the end of the list
+        if (questionsAsked[questionsAsked.length - 1] != currentQuestion) {
+          questionsAsked.add(currentQuestion);
+          answers.add(false);
+        }
+
+        // add shown questions to prevGameQs.txt to prevent being shown again
+        String toWrite = "${questionsAsked.join("\n")}\n";
+        // create the file if doesn't exist
+        if (!File("${GameData().docsDir}/prevGameQs.txt").existsSync()) {
+          File("${GameData().docsDir}/prevGameQs.txt").createSync();
+        }
+        // if 50+ items in prevGameQs.txt, clear the file and start anew. If < 50, append to the file
+        FileMode mode = FileMode.append;
+        if (File("${GameData().docsDir}/prevGameQs.txt")
+                .readAsLinesSync()
+                .length >=
+            50) {
+          mode = FileMode.write;
+        }
+        File("${GameData().docsDir}/prevGameQs.txt")
+            .writeAsStringSync(toWrite, mode: mode);
 
         Navigator.pushAndRemoveUntil(
           context,

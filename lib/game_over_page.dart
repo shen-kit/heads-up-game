@@ -54,7 +54,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                       ),
                       Text(
                         // (answers.length-1) to exclude the last-shown question. If not impossible to get 100%
-                        "Your Score: ${widget.answers.where((element) => element == true).length} / ${widget.answers.length - 1}",
+                        "Your Score: ${widget.answers.where((element) => element == true).length} / ${widget.answers.length}",
                         style: const TextStyle(
                           fontSize: 24,
                         ),
